@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-
 namespace Weather
 {
 
@@ -15,9 +14,9 @@ namespace Weather
         Dictionary<string, string> GetData(string city);
     }
 
-    public class OpenWeather : IWeatherData
+    public abstract class WeatherService : IWeatherData
     {
-        private Dictionary<string, string> data;
+        protected Dictionary<string, string> data;
 
         public delegate string WeatherTypes(string temp);
         public Dictionary<string, WeatherTypes> weather = new Dictionary<string, WeatherTypes>()
@@ -29,7 +28,7 @@ namespace Weather
             { "windDirection", null },
         };
 
-        public OpenWeather()
+        protected WeatherService()
         {
             data = new Dictionary<string, string>()
             {
@@ -41,12 +40,21 @@ namespace Weather
             };
         }
 
-        private string ChangeText(string text)
+        protected string ChangeText(string text)
         {
             return text.Replace(".", ",");
         }
 
-        public Dictionary<string, string> GetData(string city)
+        public abstract Dictionary<string, string> GetData(string city);
+    }
+
+    public class OpenWeather : WeatherService
+    {
+        public OpenWeather() : base()
+        {
+        }
+
+        public override Dictionary<string, string> GetData(string city)
         {
             string weburl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=8ff22b4d46994877e20b80bcb6befeba&mode=xml";
 
@@ -66,6 +74,20 @@ namespace Weather
             data["windDirection"] = doc.DocumentElement.SelectSingleNode("wind").ChildNodes.Item(2).Attributes["name"].Value;
 
             return data;
+        }
+    }
+
+    public class DarkSky : WeatherService
+    {
+        public DarkSky() : base()
+        {
+            
+        }
+
+        public override Dictionary<string, string> GetData(string city)
+        {
+
+            return new Dictionary<string, string>();
         }
     }
 }

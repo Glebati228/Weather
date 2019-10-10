@@ -19,6 +19,7 @@ namespace Weather
     {
         IWeatherData WeatherData { get; set; }
         OpenWeather openWeather = new OpenWeather();
+        DarkSky darkSky = new DarkSky();
 
 
         public Form1()
@@ -153,6 +154,11 @@ namespace Weather
         private void label4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void radioButton12_CheckedChanged(object sender, EventArgs e)
+        {
+            WeatherData = darkSky;
         }
     }
 }
