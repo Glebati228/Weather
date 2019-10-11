@@ -5,6 +5,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Newtonsoft.Json;
+
 
 namespace Weather
 {
@@ -86,6 +88,11 @@ namespace Weather
 
         public override Dictionary<string, string> GetData(string city)
         {
+            string webxml = "https://api.darksky.net/forecast/b4ec7c8979cd92b9980f9ebb4ff428ec/37.8267,-122.4233";
+
+            string json = new WebClient().DownloadString(new Uri(webxml));
+            RootObject root = JsonConvert.DeserializeObject<RootObject>(json);
+            Console.Out.WriteLine(root.hourly.data[0].temperature);
 
             return new Dictionary<string, string>();
         }
