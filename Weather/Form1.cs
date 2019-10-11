@@ -19,7 +19,7 @@ namespace Weather
     {
         IWeatherData WeatherData { get; set; }
         OpenWeather openWeather = new OpenWeather();
-        DarkSky darkSky = new DarkSky();
+        AccuWeather accuWeather = new AccuWeather();
 
 
         public Form1()
@@ -30,7 +30,7 @@ namespace Weather
         private void button1_Click(object sender, EventArgs e)
         {
             
-            Dictionary<string, string> data = WeatherData.GetData(textBox1.Text);
+            Dictionary<string, string> data = WeatherData.GetData(textBox1.Text, textBox2.Text);
 
             label1.Text = data["temperature"];
             label2.Text = data["humidity"];
@@ -158,7 +158,12 @@ namespace Weather
 
         private void radioButton12_CheckedChanged(object sender, EventArgs e)
         {
-            WeatherData = darkSky;
+            WeatherData = accuWeather;
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
