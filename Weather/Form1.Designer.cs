@@ -29,10 +29,7 @@
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
@@ -51,7 +48,6 @@
             this.radioButton9 = new System.Windows.Forms.RadioButton();
             this.radioButton10 = new System.Windows.Forms.RadioButton();
             this.radioButton11 = new System.Windows.Forms.RadioButton();
-            this.label4 = new System.Windows.Forms.Label();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
@@ -63,7 +59,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(337, 365);
+            this.button1.Location = new System.Drawing.Point(646, 378);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(142, 60);
             this.button1.TabIndex = 0;
@@ -71,43 +67,13 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(227, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "label1";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(337, 339);
+            this.textBox1.Location = new System.Drawing.Point(646, 352);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(68, 20);
             this.textBox1.TabIndex = 2;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(227, 140);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "label2";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(227, 258);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "label3";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // radioButton1
             // 
@@ -163,7 +129,7 @@
             // 
             this.groupBox2.Controls.Add(this.radioButton5);
             this.groupBox2.Controls.Add(this.radioButton4);
-            this.groupBox2.Location = new System.Drawing.Point(12, 140);
+            this.groupBox2.Location = new System.Drawing.Point(12, 124);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(200, 100);
             this.groupBox2.TabIndex = 7;
@@ -201,7 +167,7 @@
             this.groupBox3.Controls.Add(this.radioButton13);
             this.groupBox3.Controls.Add(this.radioButton6);
             this.groupBox3.Controls.Add(this.radioButton7);
-            this.groupBox3.Location = new System.Drawing.Point(12, 267);
+            this.groupBox3.Location = new System.Drawing.Point(12, 230);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(200, 100);
             this.groupBox3.TabIndex = 10;
@@ -248,7 +214,7 @@
             // 
             this.groupBox4.Controls.Add(this.radioButton12);
             this.groupBox4.Controls.Add(this.radioButton8);
-            this.groupBox4.Location = new System.Drawing.Point(308, 226);
+            this.groupBox4.Location = new System.Drawing.Point(218, 124);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(200, 100);
             this.groupBox4.TabIndex = 11;
@@ -285,7 +251,7 @@
             this.groupBox5.Controls.Add(this.radioButton9);
             this.groupBox5.Controls.Add(this.radioButton10);
             this.groupBox5.Controls.Add(this.radioButton11);
-            this.groupBox5.Location = new System.Drawing.Point(308, 18);
+            this.groupBox5.Location = new System.Drawing.Point(218, 18);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(200, 100);
             this.groupBox5.TabIndex = 7;
@@ -328,28 +294,18 @@
             this.radioButton11.UseVisualStyleBackColor = true;
             this.radioButton11.CheckedChanged += new System.EventHandler(this.radioButton11_CheckedChanged);
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(514, 18);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
-            this.label4.TabIndex = 12;
-            this.label4.Text = "label4";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
-            // 
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(656, 56);
+            this.listBox1.Location = new System.Drawing.Point(424, 25);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 147);
+            this.listBox1.Size = new System.Drawing.Size(364, 199);
             this.listBox1.TabIndex = 13;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(411, 339);
+            this.textBox2.Location = new System.Drawing.Point(720, 352);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(68, 20);
             this.textBox2.TabIndex = 14;
@@ -362,16 +318,12 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -393,10 +345,7 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton radioButton3;
@@ -413,7 +362,6 @@
         private System.Windows.Forms.RadioButton radioButton9;
         private System.Windows.Forms.RadioButton radioButton10;
         private System.Windows.Forms.RadioButton radioButton11;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.RadioButton radioButton12;
         private System.Windows.Forms.RadioButton radioButton13;
         private System.Windows.Forms.ListBox listBox1;

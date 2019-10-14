@@ -108,6 +108,21 @@ namespace Weather
             Metric = metric;
             this.direction = direction;
         }
+
+        public static string GetDirection(int degr)
+        {
+            Console.WriteLine(degr.ToString());
+            if (degr > 337 && degr < 22) return "N";
+            if (degr > 22 && degr < 67) return "NE";
+            if (degr > 67 && degr < 112) return "E";
+            if (degr > 112 && degr < 157) return "SE";
+            if (degr > 157 && degr < 202) return "S";
+            if (degr > 202 && degr < 257) return "SW";
+            if (degr > 257 && degr < 292) return "W";
+            if (degr > 292 && degr < 337) return "NW";
+
+            else throw new ArgumentOutOfRangeException();
+        }
     }
 
     public class Attributes
@@ -117,12 +132,32 @@ namespace Weather
         public Pressure pressure;
         public Wind wind;
 
-        public Attributes(Temperature temperature, Humidity humidity, Pressure pressure, Wind wind)
+        public Attributes(Temperature temperature, Humidity humidity, Pressure pressure, Wind wind) //instead of use interface 
         {
             this.temperature = temperature;
             this.humidity = humidity;
             this.pressure = pressure;
             this.wind = wind;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder(temperature.Data.ToString("N2") + " " + temperature.Metric + "   "
+                + humidity.Data.ToString("N2") + " " + humidity.Metric + "   "
+                + pressure.Data.ToString("N2") + " " + pressure.Metric + "   "
+                + wind.Data.ToString("N2") + " " + wind.Metric + " " + wind.direction
+                );
+            return builder.ToString();
+        }
+    }
+
+    public class Attributes2
+    {
+        public WeatherData weather = new Temperature();
+
+        public Attributes2(WeatherData data) //jst like this
+        {
+            weather = data;
         }
     }
 }

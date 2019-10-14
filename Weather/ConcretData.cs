@@ -23,9 +23,9 @@ namespace Weather
         protected List<Attributes> attributes;
 
         public delegate T WeatherTypes<T>(T weatherData);
-        public WeatherTypes<Temperature> dTemperature = null;
-        public WeatherTypes<Humidity> dHumidity = null;
-        public WeatherTypes<Pressure> dPressure = null;
+        public static WeatherTypes<Temperature> dTemperature = null;
+        public static WeatherTypes<Humidity> dHumidity = null;
+        public static WeatherTypes<Pressure> dPressure = null;
 
         protected WeatherService()
         {
@@ -44,9 +44,15 @@ namespace Weather
 
         public override List<Attributes> GetData(string city, string domen)
         {
+            if (attributes.Count != 0) attributes.Clear();
             string weburl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + domen + "&APPID=8ff22b4d46994877e20b80bcb6befeba&mode=xml";
 
             var xml = new WebClient().DownloadString(new Uri(weburl));
+
+            if(xml == null)
+            {
+                throw new NullReferenceException();
+            }
 
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
@@ -59,6 +65,7 @@ namespace Weather
                 response = (Current)serializer.Deserialize(sr);
             }
             Console.WriteLine(response.Temperature.Value);
+
             attributes.Add(
                 new Attributes(
                     dTemperature(new Temperature(response.Temperature.Value, response.Temperature.Unit)),
@@ -67,40 +74,6 @@ namespace Weather
                     new Wind(response.Wind.Speed.Value, response.Wind.Speed.Unit, response.Wind.Direction.Name)
                     )
                 );
-            ////list[3] = doc.DocumentElement.SelectNodes("wind");
-            //for (int i = 0; i < list.Length; ++i)
-            //{
-            //    Attributes attr = new Attributes();
-
-            //    for (int k = 0; k < list[i].Count; ++k)
-            //    {
-            //        attr = double.Parse(list[i][k].Attributes["value"].Value.Replace(".", ","));
-            //        dTemperature(attributes[0].);
-            //    }
-            //    attributes.Add(attr);
-            //}
-            //data["temperature"] = ParseData(list, "temperature", "value", null);
-
-            //list = doc.DocumentElement.SelectNodes("humidity");
-            //data["humidity"] = ParseData(list, "humidity", "value", null);
-
-            //list = doc.DocumentElement.SelectNodes("pressure");
-            //data["pressure"] = ParseData(list, "pressure", "value", null);
-
-            //list = doc.DocumentElement.SelectNodes("wind");
-            //data["windSpeed"] = ParseData(list, "windSpeed", "value", 0);
-
-            //list = doc.DocumentElement.SelectNodes("wind");
-            //data["windDirection"] = ParseData(list, "windDirection", "name", 2);
-
-            //data["humidity"] = weather["humidity"](ChangeText(doc.DocumentElement.SelectSingleNode("humidity").Attributes["value"].Value));
-            //data["pressure"] = weather["pressure"](ChangeText(doc.DocumentElement.SelectSingleNode("pressure").Attributes["value"].Value));
-
-            //data["windSpeed"] = doc.DocumentElement.SelectSingleNode("wind").ChildNodes.Item(0).Attributes["value"].Value + " m/s";
-            //ChangeText("windSpeed");
-
-            //data["windDirection"] = doc.DocumentElement.SelectSingleNode("wind").ChildNodes.Item(2).Attributes["name"].Value;
-
             return attributes;
         }
     }
@@ -112,9 +85,10 @@ namespace Weather
             
         }
 
-        public override List<Attributes> GetData(string city, string domen)
+        public override List<Attributes> GetData(string arg1, string arg2)
         {
-            string webxml = "https://api.darksky.net/forecast/b4ec7c8979cd92b9980f9ebb4ff428ec/37.8267,-122.4233";
+            if (attributes.Count != 0) attributes.Clear();
+            string webxml = "https://api.darksky.net/forecast/b4ec7c8979cd92b9980f9ebb4ff428ec/" + arg1 + "," + arg2;
 
             string json = new WebClient().DownloadString(new Uri(webxml));
             RootObject root = JsonConvert.DeserializeObject<RootObject>(json);
@@ -124,7 +98,15 @@ namespace Weather
                 Console.Out.WriteLine(TimeConversions.UnixTimeStampToDateTime(time.time) + " ");
             }
 
-
+            foreach(var data in root.daily.data)
+            {
+                attributes.Add(new Attributes(
+                    dTemperature(new Temperature(data.apparentTemperatureLow, "")),
+                    dHumidity(new Humidity(data.humidity, "")),
+                    dPressure(new Pressure(data.pressure, "")),
+                    new Wind(data.windSpeed, "", Wind.GetDirection(data.windBearing))
+                    ));
+            }
 
             return attributes;
         }
