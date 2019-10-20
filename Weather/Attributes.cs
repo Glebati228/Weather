@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 namespace Weather
 {
 
-    public interface WeatherData
+    public interface IAttribute
     {
         double Data { get; set; }
         string Metric { get; set; }
     }
 
-    public struct Temperature : WeatherData
+    public struct Temperature : IAttribute
     {
         public double Data { get; set; }
         public string Metric { get; set; }
@@ -45,7 +45,7 @@ namespace Weather
         }
     }
 
-    public struct Humidity : WeatherData
+    public struct Humidity : IAttribute
     {
         public double Data { get; set; }
         public string Metric { get; set; }
@@ -63,7 +63,7 @@ namespace Weather
         }
     }
 
-    public struct Pressure : WeatherData
+    public struct Pressure : IAttribute
     {
         public double Data { get; set; }
         public string Metric { get; set; }
@@ -94,8 +94,7 @@ namespace Weather
             return pressure;
         }
     }
-
-    public struct Wind : WeatherData
+    public struct Wind : IAttribute
     {
         public double Data { get; set; }
         public string Metric { get; set; }
@@ -111,53 +110,38 @@ namespace Weather
 
         public static string GetDirection(int degr)
         {
-            Console.WriteLine(degr.ToString());
-            if (degr > 337 && degr < 22) return "N";
-            if (degr > 22 && degr < 67) return "NE";
-            if (degr > 67 && degr < 112) return "E";
-            if (degr > 112 && degr < 157) return "SE";
-            if (degr > 157 && degr < 202) return "S";
-            if (degr > 202 && degr < 257) return "SW";
-            if (degr > 257 && degr < 292) return "W";
-            if (degr > 292 && degr < 337) return "NW";
+            if (degr >= 337 && degr <= 22) return "N";
+            if (degr >= 22 && degr <= 67) return "NE";
+            if (degr >= 67 && degr <= 112) return "E";
+            if (degr >= 112 && degr <= 157) return "SE";
+            if (degr >= 157 && degr <= 202) return "S";
+            if (degr >= 202 && degr <= 257) return "SW";
+            if (degr >= 257 && degr <= 292) return "W";
+            if (degr >= 292 && degr <= 337) return "NW";
 
-            else throw new ArgumentOutOfRangeException();
+            else return " ";
         }
     }
 
     public class Attributes
     {
-        public Temperature temperature;
-        public Humidity humidity;
-        public Pressure pressure;
-        public Wind wind;
+        List<IAttribute> datas;
 
-        public Attributes(Temperature temperature, Humidity humidity, Pressure pressure, Wind wind) //instead of use interface 
+        public Attributes(List<IAttribute> datas) 
         {
-            this.temperature = temperature;
-            this.humidity = humidity;
-            this.pressure = pressure;
-            this.wind = wind;
+            this.datas = datas;
         }
 
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder(temperature.Data.ToString("N2") + " " + temperature.Metric + "   "
-                + humidity.Data.ToString("N2") + " " + humidity.Metric + "   "
-                + pressure.Data.ToString("N2") + " " + pressure.Metric + "   "
-                + wind.Data.ToString("N2") + " " + wind.Metric + " " + wind.direction
-                );
-            return builder.ToString();
-        }
-    }
+            string data = "";
 
-    public class Attributes2
-    {
-        public WeatherData weather = new Temperature();
+            foreach (IAttribute item in datas)
+            {
+                data += item.Data.ToString() + " " + item.Metric.ToString() + "   ";
+            }
 
-        public Attributes2(WeatherData data) //jst like this
-        {
-            weather = data;
+            return data;
         }
     }
 }

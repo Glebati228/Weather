@@ -18,8 +18,8 @@ namespace Weather
     public partial class Form1 : Form
     {
         IWeatherData WeatherData { get; set; }
-        OpenWeather openWeather = new OpenWeather();
-        DarkSky darkSky = new DarkSky();
+        //OpenWeather openWeather = new OpenWeather();
+        //DarkSky darkSky = new DarkSky();
 
         public Form1()
         {
@@ -40,12 +40,11 @@ namespace Weather
             if (WeatherData != null)
             {
                 listBox1.Items.Clear();
-                List<Attributes> attributes = WeatherData.GetData(textBox1.Text, textBox2.Text);
+                List<List<Attributes>> attributes = WeatherData.GetData(textBox1.Text, textBox2.Text);
 
-                foreach (Attributes attribute in attributes)
+                for (int i = 0; i < attributes.Count; ++i)
                 {
-                    listBox1.Items.Add(attribute.ToString());
-
+                    listBox1.Items.Add(attributes[i][0]);
                 }
             }
         }
@@ -131,7 +130,7 @@ namespace Weather
         //source
         private void radioButton8_CheckedChanged(object sender, EventArgs e)
         {
-            WeatherData = openWeather;
+            WeatherData = new OpenWeather();
         }
 
         private void groupBox4_Enter(object sender, EventArgs e)
@@ -166,17 +165,31 @@ namespace Weather
 
         private void radioButton12_CheckedChanged(object sender, EventArgs e)
         {
-            WeatherData = darkSky;
+            WeatherData = new DarkSky();
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if (listBox2.Items.Count != 0) listBox2.Items.Clear();
+            //var tempAttr = listBox1.SelectedItem;
+            //Console.WriteLine(tempAttr);
+            //string tempAttr = listBox1.SelectedItem;
+            //listBox2.Items.Add(tempAttr.ToString());
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

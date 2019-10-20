@@ -14,25 +14,26 @@ namespace Weather
 
     public interface IWeatherData
     {
-        List<Attributes> GetData(string arg1, string arg2);
+        List<List<Attributes>> GetData(string arg1, string arg2);
     }
 
     public abstract class WeatherService : IWeatherData
     {
         protected Dictionary<string, List<string>> data;
-        protected List<Attributes> attributes;
+        protected List<List<Attributes>> attributes;
 
         public delegate T WeatherTypes<T>(T weatherData);
         public static WeatherTypes<Temperature> dTemperature = null;
         public static WeatherTypes<Humidity> dHumidity = null;
         public static WeatherTypes<Pressure> dPressure = null;
+        //public static List<IAttribute> dAttrs = null;
 
         protected WeatherService()
         {
-            attributes = new List<Attributes>();
+            attributes = new List<List<Attributes>>();
         }
 
-        public abstract List<Attributes> GetData(string arg1, string arg2);
+        public abstract List<List<Attributes>> GetData(string arg1, string arg2);
     }
 
     public class OpenWeather : WeatherService
@@ -42,7 +43,7 @@ namespace Weather
 
         }
 
-        public override List<Attributes> GetData(string city, string domen)
+        public override List<List<Attributes>> GetData(string city, string domen)
         {
             if (attributes.Count != 0) attributes.Clear();
             string weburl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + domen + "&APPID=8ff22b4d46994877e20b80bcb6befeba&mode=xml";
@@ -66,14 +67,15 @@ namespace Weather
             }
             Console.WriteLine(response.Temperature.Value);
 
-            attributes.Add(
-                new Attributes(
+            attributes.Add( new List<Attributes>() {
+                new Attributes( new List<IAttribute>(){
                     dTemperature(new Temperature(response.Temperature.Value, response.Temperature.Unit)),
                     dHumidity(new Humidity(response.Humidity.Value, response.Humidity.Unit)),
                     dPressure(new Pressure(response.Pressure.Value, response.Pressure.Unit)),
-                    new Wind(response.Wind.Speed.Value, response.Wind.Speed.Unit, response.Wind.Direction.Name)
-                    )
-                );
+                    new Wind(response.Wind.Speed.Value, response.Wind.Speed.Unit, response.Wind.Direction.Name),
+                }) 
+            });
+           
             return attributes;
         }
     }
@@ -85,7 +87,7 @@ namespace Weather
             
         }
 
-        public override List<Attributes> GetData(string arg1, string arg2)
+        public override List<List<Attributes>> GetData(string arg1, string arg2)
         {
             if (attributes.Count != 0) attributes.Clear();
             string webxml = "https://api.darksky.net/forecast/b4ec7c8979cd92b9980f9ebb4ff428ec/" + arg1 + "," + arg2;
@@ -100,14 +102,31 @@ namespace Weather
 
             foreach(var data in root.daily.data)
             {
-                attributes.Add(new Attributes(
-                    dTemperature(new Temperature(data.apparentTemperatureLow, "")),
-                    dHumidity(new Humidity(data.humidity, "")),
-                    dPressure(new Pressure(data.pressure, "")),
-                    new Wind(data.windSpeed, "", Wind.GetDirection(data.windBearing))
-                    ));
+                attributes.Add( new List<Attributes>() {
+                    new Attributes(new List<IAttribute>()
+                    {
+                        dTemperature(new Temperature(data.apparentTemperatureLow, "")),
+                        dHumidity(new Humidity(data.humidity, "")),
+                        dPressure(new Pressure(data.pressure, "")),
+                        new Wind(data.windSpeed, "", Wind.GetDirection(data.windBearing))
+                    }
+                    )});
             }
 
+            for (int i = 0; i < root.hourly.data.Count; ++i)
+            {
+                Console.WriteLine(Wind.GetDirection(root.hourly.data[i].windBearing));
+                attributes[0].Add(
+                    new Attributes(new List<IAttribute>()
+                    {
+                        dTemperature(new Temperature(root.hourly.data[i].temperature, "")),
+                        dHumidity(new Humidity(root.hourly.data[i].humidity, "")),
+                        dPressure(new Pressure(root.hourly.data[i].pressure, "")),
+                        new Wind(root.hourly.data[i].windSpeed, "", Wind.GetDirection(root.hourly.data[i].windBearing))
+                    }
+                    )
+                    );
+            }
             return attributes;
         }
     }
